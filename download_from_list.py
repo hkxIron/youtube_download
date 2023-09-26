@@ -69,6 +69,7 @@ option=' --write-auto-sub --verbose --sub-format srt --sub-lang en,zh-Hans'
 """
 
 def download(link_list, output_dir):
+    print("begin to download list:", link_list)
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
         print("mkdir: ",output_dir)
