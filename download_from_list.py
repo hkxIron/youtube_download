@@ -18,7 +18,11 @@ https://github.com/ytdl-org/youtube-dl
 由于youtube-dl已不再更新，需要使用yt-dlp, 作为youtube-dl的继承者
 https://github.com/yt-dlp/yt-dlp
 
+# 安装依赖
 python -m pip install -U yt-dlp
+# 示例用法, 视频存在data/目录
+python download_from_list.py links/compression_for_agi.txt data/
+
 """
 
 """
