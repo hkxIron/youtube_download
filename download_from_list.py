@@ -11,6 +11,13 @@ import os,sys
 import platform
 
 """
+安装或升级 yt-dlp:
+[安装]
+python3 -m pip install -U yt-dlp
+
+[升级]
+python3 -m pip install -U yt-dlp
+
 error:"token" parameter not in video info for unknown reason
 需要去官网下载最新的bin:
 https://github.com/ytdl-org/youtube-dl
