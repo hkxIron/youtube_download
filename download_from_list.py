@@ -9,6 +9,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 import os,sys
 import platform
+from typing import List
 
 """
 安装或升级 yt-dlp:
@@ -78,7 +79,7 @@ option=' --write-auto-sub --verbose --sub-format srt --sub-lang en,zh-Hans'
 --sub-lang LANGS                 Languages of the subtitles to download (optional) separated by commas, use IETF language tags like 'en,pt'
 """
 
-def download(link_list, output_dir):
+def download(link_list:List[str], output_dir:str, skip_count:int):
     print("begin to download list:", link_list)
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
@@ -87,8 +88,8 @@ def download(link_list, output_dir):
     if len(link_list) == 0:
         print("no video need download!")
         return
-    print("video num:%d \nlink_list:%s"%(num, "\n".join(link_list)))
-    index = 1
+    print("video num:%d skip_count:%d \nlink_list:%s"%(num, skip_count, "\n".join(link_list)))
+    index = skip_count + 1
     failed_list = []
     for link in link_list:
         prefix = str(index).zfill(2)  # 填充为两位
@@ -106,14 +107,18 @@ def download(link_list, output_dir):
         index += 1
     print("total: %d success:%d failed:%d"%(num, num - len(failed_list), len(failed_list)))
 
-def read_link_list(link_list_file):
+def read_link_list(link_list_file:str):
     link_list = []
+    skip_links_count = 0
     with open(link_list_file,"r") as fr:
         for line in fr.readlines():
             # 不读取注释的
-            if line.strip().startswith("#") or len(line.strip()) <=5: continue
+            if line.strip().startswith("#") or line.strip().startswith("//") or len(line.strip()) <=5:
+                if "http://" in line or "https://" in line:
+                    skip_links_count+=1
+                continue
             link_list.append(line.rstrip("\n"))
-    return link_list
+    return link_list, skip_links_count
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -122,7 +127,7 @@ if __name__ == "__main__":
     link_list_file = sys.argv[1]
     output_dir = sys.argv[2].strip()
     print("link list file: %s"%link_list_file)
-    link_list = read_link_list(link_list_file)
-    download(link_list, output_dir)
+    link_list, skip_count = read_link_list(link_list_file)
+    download(link_list, output_dir, skip_count)
     print("job down.")
 
