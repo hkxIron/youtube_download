@@ -4,12 +4,10 @@
 # author: hkxIron
 # 根据视频列表，下载视频文件
 
-import argparse
-from __future__ import print_function
-from __future__ import unicode_literals
 import os,sys
 import platform
 from typing import List
+import argparse
 
 """
 安装或升级 yt-dlp:
@@ -34,7 +32,7 @@ python download_from_list.py --link_list_file=links/compression_for_agi.txt --ou
 python download_from_list.py --link_list_file=links/drl_wangshusheng.txt --output_dir=/home/hkx/data/TeachVideo/drl
 
 用法示例:
-python download_from_list.py --link_list_file=nn_from_zero.txt  --output_dir=nn_from_zero/
+python download_from_list.py --link_list_file=links/nn_from_zero.txt  --output_dir=nn_from_zero/
 
 利用ffmpeg从mkv转为mp4:
 ffmpeg -i '01_RL Course by David Silver - Lecture 2 - Markov Decision Process_1920x1080.mkv'  -strict -2 '01_RL Course by David Silver - Lecture 2 - Markov Decision Process_1920x1080.mp4'
@@ -75,7 +73,7 @@ option=' --write-auto-sub --verbose --sub-format srt --sub-lang en,zh-Hans'
 """
 
 def download_video(link_list:List[str], output_dir:str, skip_count:int, is_playlist:bool=False):
-    print(f"begin to download list:{link_list} output_dir:{output_dir} is_playlist:{is_playlist}")
+    print(f"begin to download list, output_dir:{output_dir} is_playlist:{is_playlist}")
 
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
@@ -88,7 +86,7 @@ def download_video(link_list:List[str], output_dir:str, skip_count:int, is_playl
     index = skip_count + 1
     failed_list = []
     for link in link_list:
-        print("begin to download: ", link)
+        print("begin to download:", link)
         if is_playlist:
             base_filename = format + option + " --yes-playlist"
         else:
@@ -97,7 +95,7 @@ def download_video(link_list:List[str], output_dir:str, skip_count:int, is_playl
         cmd = downloader + link +" -o "+ os.path.join('"'+output_dir, base_filename)
         if len(proxy) > 0:
             cmd += proxy
-        print("cmd: ", cmd)
+        print("shell command: ", cmd)
         success_flag = os.system(cmd)>>8 == 0
         if success_flag:
             print("download video success:", link)
