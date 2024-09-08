@@ -4,7 +4,7 @@
 # author: hkxIron
 # 根据视频列表，下载视频文件
 
-# python 2/3 compatibility imports
+import argparse
 from __future__ import print_function
 from __future__ import unicode_literals
 import os,sys
@@ -29,6 +29,8 @@ https://github.com/yt-dlp/yt-dlp
 # 安装依赖
 python -m pip install -U yt-dlp
 # 示例用法, 视频存在data/目录
+python download_from_list.py links/drl_zhaoshiyu.txt /home/hkx/data/TeachVideo/drl_zhaoshiyu
+
 python download_from_list.py links/compression_for_agi.txt data/
 python download_from_list.py links/drl_wangshusheng.txt /home/hkx/data/TeachVideo/drl
 
@@ -63,7 +65,7 @@ else: # Linux
 #proxy = ' --proxy "xx.yy.cn:3128" '
 proxy = ' --proxy "fq.mioffice.cn:3128" '
 
-format = '_%(title)s_%(resolution)s.%(ext)s" '
+format = '%(title)s_%(resolution)s.%(ext)s" '
 
 #option=' --write-auto-sub --verbose  --recode-video mp4 ' # 很多不能转为mp4
 option=' --write-auto-sub --verbose --sub-format srt --sub-lang en,zh-Hans'
@@ -79,7 +81,7 @@ option=' --write-auto-sub --verbose --sub-format srt --sub-lang en,zh-Hans'
 --sub-lang LANGS                 Languages of the subtitles to download (optional) separated by commas, use IETF language tags like 'en,pt'
 """
 
-def download(link_list:List[str], output_dir:str, skip_count:int):
+def download_video(link_list:List[str], output_dir:str, skip_count:int, is_playlist:bool=False):
     print("begin to download list:", link_list)
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
@@ -92,9 +94,13 @@ def download(link_list:List[str], output_dir:str, skip_count:int):
     index = skip_count + 1
     failed_list = []
     for link in link_list:
-        prefix = str(index).zfill(2)  # 填充为两位
         print("begin to download: ", link)
-        cmd = downloader + link +" -o "+ os.path.join('"'+output_dir, prefix + format+ option)
+        if is_playlist:
+            base_filename = format + option + " --yes-playlist"
+        else:
+            prefix = str(index).zfill(2)  # 填充为两位
+            base_filename = prefix +"_"+ format + option
+        cmd = downloader + link +" -o "+ os.path.join('"'+output_dir, base_filename)
         if len(proxy) > 0:
             cmd += proxy
         print("cmd: ", cmd)
@@ -121,13 +127,19 @@ def read_link_list(link_list_file:str):
     return link_list, skip_links_count
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage:%s link_list_file output_dir"%sys.argv[0])
-        sys.exit(0)
-    link_list_file = sys.argv[1]
-    output_dir = sys.argv[2].strip()
-    print("link list file: %s"%link_list_file)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--link_list_file', type=str, default='')
+    parser.add_argument('--output_dir', type=str, default='')
+    parser.add_argument('--is_playlist', type=bool, default=False, help='是否是播放列表')
+    args = parser.parse_args()
+    print("args:", args)
+
+    link_list_file = args.link_list_file
+    output_dir = args.output_dir
+    is_playlist = args.is_playlist
+
+    print(f"link list file: {link_list_file}")
     link_list, skip_count = read_link_list(link_list_file)
-    download(link_list, output_dir, skip_count)
+    download_video(link_list, output_dir, skip_count, is_playlist)
     print("job down.")
 
