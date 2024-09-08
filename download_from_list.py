@@ -29,23 +29,22 @@ https://github.com/yt-dlp/yt-dlp
 python -m pip install -U yt-dlp
 # 示例用法, 视频存在data/目录
 python download_from_list.py links/compression_for_agi.txt data/
+python download_from_list.py links/drl_wangshusheng.txt /home/hkx/data/TeachVideo/drl
 
 """
 
 """
-D:\lunaWorkspace\old_bak\youtube_downloadProj>D:\lunaWorkspace\old_bak\youtube_d
-ownloadProj\youtube-dl.exe https://www.youtube.com/watch?v=NfnWJUyUJYU  --proxy "dev-proxy.oa.com:8080" 
-  -o %(title).%(ext)  --write-auto-sub --verbose
-  
 用法示例:
 python download_from_list.py list_advanced_deep_learning_and_reinforcelearning_2018.txt C:\\Users\kexin\youtube\
 python download_from_list.py list_RL_david_silver_2015.txt C:\\Users\kexin\youtube\
-python download_from_list.py  nn_from_zero.txt nn_from_zero/
+python download_from_list.py nn_from_zero.txt nn_from_zero/
 
 
 利用ffmpeg从mkv转为mp4:
 ffmpeg -i '01_RL Course by David Silver - Lecture 2 - Markov Decision Process_1920x1080.mkv'  -strict -2 '01_RL Course by David Silver - Lecture 2 - Markov Decision Process_1920x1080.mp4'
 
+或者利用脚本
+sh convert_mp4.sh
 """
 
 #downloader=r"D:\public_code\hkx_tf_practice\test_python\youtube_download\youtube-dl.exe "
