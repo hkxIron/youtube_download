@@ -29,19 +29,12 @@ https://github.com/yt-dlp/yt-dlp
 # 安装依赖
 python -m pip install -U yt-dlp
 # 示例用法, 视频存在data/目录
-python download_from_list.py links/drl_zhaoshiyu.txt /home/hkx/data/TeachVideo/drl_zhaoshiyu
+python download_from_list.py --link_list_file=links/drl_zhaoshiyu.txt --output_dir=/home/hkx/data/TeachVideo/drl_zhaoshiyu --is_playlist=True
+python download_from_list.py --link_list_file=links/compression_for_agi.txt --output_dir=data/
+python download_from_list.py --link_list_file=links/drl_wangshusheng.txt --output_dir=/home/hkx/data/TeachVideo/drl
 
-python download_from_list.py links/compression_for_agi.txt data/
-python download_from_list.py links/drl_wangshusheng.txt /home/hkx/data/TeachVideo/drl
-
-"""
-
-"""
 用法示例:
-python download_from_list.py list_advanced_deep_learning_and_reinforcelearning_2018.txt C:\\Users\kexin\youtube\
-python download_from_list.py list_RL_david_silver_2015.txt C:\\Users\kexin\youtube\
-python download_from_list.py nn_from_zero.txt nn_from_zero/
-
+python download_from_list.py --link_list_file=nn_from_zero.txt  --output_dir=nn_from_zero/
 
 利用ffmpeg从mkv转为mp4:
 ffmpeg -i '01_RL Course by David Silver - Lecture 2 - Markov Decision Process_1920x1080.mkv'  -strict -2 '01_RL Course by David Silver - Lecture 2 - Markov Decision Process_1920x1080.mp4'
@@ -82,7 +75,8 @@ option=' --write-auto-sub --verbose --sub-format srt --sub-lang en,zh-Hans'
 """
 
 def download_video(link_list:List[str], output_dir:str, skip_count:int, is_playlist:bool=False):
-    print("begin to download list:", link_list)
+    print(f"begin to download list:{link_list} output_dir:{output_dir} is_playlist:{is_playlist}")
+
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
         print("mkdir: ",output_dir)
@@ -98,8 +92,8 @@ def download_video(link_list:List[str], output_dir:str, skip_count:int, is_playl
         if is_playlist:
             base_filename = format + option + " --yes-playlist"
         else:
-            prefix = str(index).zfill(2)  # 填充为两位
-            base_filename = prefix +"_"+ format + option
+            index_str = str(index).zfill(2)  # 填充为两位
+            base_filename = index_str + "_" + format + option
         cmd = downloader + link +" -o "+ os.path.join('"'+output_dir, base_filename)
         if len(proxy) > 0:
             cmd += proxy
