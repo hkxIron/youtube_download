@@ -1,4 +1,7 @@
-﻿1.直接下载
+﻿python download_from_list.py --link_list_file=links/nn_from_zero.txt  --output_dir=nn_from_zero/
+
+
+1.直接下载
 E:\kp\lunaWorkspace\youtube_downloadProj>youtube-dl.exe  https://www.youtube.com
 /watch?v=NfnWJUyUJYU   -o %(title)s.%(ext)s  --write-auto-sub --verbose
 
