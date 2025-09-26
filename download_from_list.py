@@ -17,19 +17,24 @@ python3 -m pip install -U yt-dlp
 [升级]
 python3 -m pip install -U yt-dlp
 
-error:"token" parameter not in video info for unknown reason
-需要去官网下载最新的bin:
-https://github.com/ytdl-org/youtube-dl
+# 安装依赖
+python -m pip install -U yt-dlp
+
+使用curl的方式升级安装：
+# 一键安装最新版
+sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
+sudo chmod a+rx /usr/local/bin/yt-dlp
 
 由于youtube-dl已不再更新，需要使用yt-dlp, 作为youtube-dl的继承者
 https://github.com/yt-dlp/yt-dlp
 
-# 安装依赖
-python -m pip install -U yt-dlp
+
 # 示例用法, 视频存在data/目录
 python download_from_list.py --link_list_file=links/drl_zhaoshiyu.txt --output_dir=/home/hkx/data/TeachVideo/drl_zhaoshiyu --is_playlist=True
 python download_from_list.py --link_list_file=links/compression_for_agi.txt --output_dir=data/
 python download_from_list.py --link_list_file=links/drl_wangshusheng.txt --output_dir=/home/hkx/data/TeachVideo/drl
+
+python download_from_list.py --link_list_file=links/grpo.txt --output_dir=/home/hkx/data/TeachVideo/2025_grpo
 
 用法示例:
 python download_from_list.py --link_list_file=links/nn_from_zero.txt  --output_dir=nn_from_zero/
@@ -59,7 +64,8 @@ proxy = ' --proxy "fq.mioffice.cn:3128" '
 format = '%(title)s_%(resolution)s.%(ext)s" '
 
 #option=' --write-auto-sub --verbose  --recode-video mp4 ' # 很多不能转为mp4
-option=' --write-auto-sub --verbose --sub-format srt --sub-lang en,zh-Hans'
+#option=' --write-auto-sub --verbose --sub-format srt --sub-lang en,zh-Hans'
+option=' --write-auto-sub --verbose --sub-format srt --sub-lang en'
 """
 参数--write-auto-sub 是下载自动生成的字幕，不加 auto 是下载上传者上传的字幕
 --skip-download 表示不下载视频
