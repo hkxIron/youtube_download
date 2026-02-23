@@ -30,6 +30,7 @@ https://github.com/yt-dlp/yt-dlp
 
 
 # 示例用法, 视频存在data/目录
+python download_from_list.py --link_list_file=links/pipeline_parallel.txt --output_dir=data/
 python download_from_list.py --link_list_file=links/drl_zhaoshiyu.txt --output_dir=/home/hkx/data/TeachVideo/drl_zhaoshiyu --is_playlist=True
 python download_from_list.py --link_list_file=links/compression_for_agi.txt --output_dir=data/
 python download_from_list.py --link_list_file=links/drl_wangshusheng.txt --output_dir=/home/hkx/data/TeachVideo/drl
